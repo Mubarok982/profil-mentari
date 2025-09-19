@@ -1,4 +1,3 @@
-// components/PanjatTebing.js
 import ImageSlider from './ImageSlider';
 
 const panjatTebingImages = [

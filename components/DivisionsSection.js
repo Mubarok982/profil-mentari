@@ -1,7 +1,5 @@
-// components/DivisionsSection.js
 import Image from 'next/image';
 
-// Data untuk setiap divisi
 const divisionsData = [
   {
     id: "arung-jeram",
@@ -33,11 +31,10 @@ const divisionsData = [
   }
 ];
 
-// Komponen untuk satu kartu divisi
 const DivisionCard = ({ id, title, description, imageUrl, alt }) => (
   <div id={id} className="flex-shrink-0 w-full h-full snap-center">
     <div className="relative w-full h-full flex flex-col md:flex-row items-center">
-      {/* Gambar di Kiri (Desktop) atau Atas (Mobile) */}
+      {}
       <div className="relative w-full md:w-1/2 h-64 md:h-full">
         <Image
           src="/images/lol.jpg"
@@ -48,7 +45,7 @@ const DivisionCard = ({ id, title, description, imageUrl, alt }) => (
         <div className="absolute inset-0 bg-black/30"></div>
       </div>
       
-      {/* Konten Teks di Kanan */}
+      {}
       <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
         <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{title}</h3>
         <p className="text-base text-gray-600 leading-relaxed">
@@ -63,13 +60,13 @@ const DivisionCard = ({ id, title, description, imageUrl, alt }) => (
 export default function DivisionsSection() {
   return (
     <section className="relative w-full h-screen bg-gray-100">
-      {/* --- Container dengan Horizontal Scrolling --- */}
+      {}
       <div className="flex w-full h-full overflow-x-auto snap-x snap-mandatory">
         {divisionsData.map((division) => (
           <DivisionCard key={division.id} {...division} />
         ))}
       </div>
-       {/* Indikator scroll (opsional) */}
+       {}
        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-600 animate-pulse">
         <p>‹ Gulir ke samping ›</p>
       </div>

@@ -1,13 +1,11 @@
-// components/PengurusSection.js
 import OrgChartNode from './OrgChartNode';
-import { OrgChartLevel, OrgChartConnector } from './OrgChartLevel'; // Menggunakan OrgChartLevel dan Connector
+import { OrgChartLevel, OrgChartConnector } from './OrgChartLevel'; 
 
-// --- DATA DUMMY UNTUK SEMUA POSISI SESUAI DIAGRAM ---
 const dataPengurus = {
   ketuaUmum: {
     name: 'Ahmad Budi',
     position: 'Ketua Umum',
-    imageUrl: '/images/pengurus/ketua_umum.png', // Ganti dengan path foto asli
+    imageUrl: '/images/pengurus/ketua_umum.png', 
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   sekretaris: {
@@ -70,7 +68,7 @@ const dataPengurus = {
     imageUrl: '/images/pengurus/kadiv_rimba_gunung.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
-  kadivRockClimbing: { // Panjat Tebing
+  kadivRockClimbing: { 
     name: 'Diana Putri',
     position: 'Kadiv Panjat Tebing',
     imageUrl: '/images/pengurus/kadiv_panjat_tebing.png',
@@ -101,24 +99,24 @@ export default function PengurusSection() {
           </p>
         </div>
 
-        {/* --- BAGIAN BAGAN ORGANISASI --- */}
-        <div className="mt-16 overflow-x-auto pb-8"> {/* Tambah overflow-x-auto untuk responsif */}
+        {}
+        <div className="mt-16 overflow-x-auto pb-8"> {}
           <div className="min-w-max flex flex-col items-center p-4">
 
-            {/* Level 1: Ketua Umum */}
+            {}
             <div className="relative">
               <OrgChartNode {...ketuaUmum} />
-              <OrgChartConnector type="bottom-top" /> {/* Garis vertikal ke bawah */}
+              <OrgChartConnector type="bottom-top" /> {}
             </div>
 
-            {/* Level 2: Sekretaris & Bendahara (Laporan ke Ketua Umum) */}
+            {}
             <div className="relative w-full text-center flex justify-center mt-8">
-                {/* Garis horizontal di bawah Ketua Umum */}
+                {}
                 <div className="h-px bg-gray-400 w-full absolute top-0 left-0 right-0 z-0"></div>
-                {/* Garis vertikal dari Ketua Umum ke garis horizontal */}
+                {}
                 <div className="w-px h-8 bg-gray-400 absolute top-0 -translate-y-full left-1/2 -translate-x-1/2"></div>
                 
-                <div className="flex justify-center gap-16 relative mt-8"> {/* Jarak antara Sekretaris-Bendahara */}
+                <div className="flex justify-center gap-16 relative mt-8"> {}
                     <div className="relative">
                         <OrgChartNode {...sekretaris} />
                         <OrgChartConnector type="top-bottom" /> {/* Garis vertikal dari atas */}

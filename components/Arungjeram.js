@@ -14,10 +14,10 @@ export default function ArungJeram() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
           
-          {/* Kolom Gambar sekarang menggunakan ImageSlider */}
+          {}
           <ImageSlider images={arungJeramImages} />
 
-          {/* Kolom Teks (tidak berubah) */}
+          {}
           <div className="flex flex-col justify-center">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Divisi Arung Jeram</h2>
             <p className="text-base text-gray-600 leading-relaxed">

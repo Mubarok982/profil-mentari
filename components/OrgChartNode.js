@@ -1,17 +1,16 @@
-// components/OrgChartNode.js
 import { FaInstagram, FaWhatsapp, FaFacebook } from 'react-icons/fa';
-import Image from 'next/image'; // Impor komponen Image dari Next.js
+import Image from 'next/image';
 
 const OrgChartNode = ({ name, position, socials, imageUrl }) => (
   <div className="relative flex flex-col items-center bg-white p-4 rounded-lg shadow-md border border-gray-200 min-w-[180px] text-center">
     {imageUrl && (
       <div className="relative h-20 w-20 mx-auto mb-2 rounded-full overflow-hidden border-2 border-emerald-500">
-        {/* KOREKSI: Menggunakan komponen <Image> dari Next.js, bukan <img> biasa */}
+        {}
         <Image
           src={imageUrl}
           alt={`Foto ${name}`}
           fill
-          className="object-cover" // object-cover adalah cara modern untuk objectFit
+          className="object-cover" 
         />
       </div>
     )}

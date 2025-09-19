@@ -1,7 +1,6 @@
 import { FaTiktok, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 const FooterColumn = ({ title, links }) => (
-  // DIRAPIKAN: Teks rata tengah di mobile, rata kiri di desktop
   <div className="text-center md:text-left">
     <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">{title}</h3>
     <ul className="space-y-2">
@@ -33,22 +32,20 @@ export default function Footer() {
     { name: 'Panjat Tebing', href: '#panjat-tebing' },
     { name: 'Rimba Gunung', href: '#rimba-gunung' },
   ];
-  
-  // DIHAPUS: const quickLinks = [...] sudah tidak diperlukan lagi
 
   return (
     <footer className="bg-gray-50 border-t border-gray-200 text-gray-800 py-12 px-4 antialiased">
       <div className="container mx-auto">
-        {/* DIRAPIKAN: Grid diubah menjadi 3 kolom di layar medium ke atas */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* DIRAPIKAN: Class col-span dihapus agar layout lebih sederhana */}
+          {}
           <div className="text-center md:text-left">
             <h2 className="text-gray-900 text-2xl font-bold mb-4">UKM MAPALA</h2>
             <p className="text-gray-600 leading-relaxed">Menjelajahi Alam, Menemukan Diri, Menjaga Bumi.</p>
           </div>
           <FooterColumn title="Divisi" links={divisionLinks} />
           <FooterColumn title="Hubungi Kami" links={contactLinks} />
-          {/* DIHAPUS: <FooterColumn title="Link Cepat" ... /> sudah tidak ada di sini */}
+          {}
         </div>
         <hr className="border-gray-200 mb-8" />
         <div className="text-center">
