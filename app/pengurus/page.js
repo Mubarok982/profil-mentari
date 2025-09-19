@@ -1,7 +1,6 @@
-// app/pengurus/page.js
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import PengurusSection from "@/components/PengurusSection"; // Komponen ini akan kita buat selanjutnya
+import PengurusSection from "@/components/PengurusSection"; 
 
 export default function HalamanPengurus() {
   return (

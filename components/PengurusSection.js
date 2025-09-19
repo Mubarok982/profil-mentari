@@ -1,110 +1,208 @@
 // components/PengurusSection.js
-import Image from 'next/image';
-import Link from 'next/link';
-// 1. Impor ikon baru dari react-icons
-import { FaInstagram, FaWhatsapp, FaFacebook } from 'react-icons/fa';
+import OrgChartNode from './OrgChartNode';
+import { OrgChartLevel, OrgChartConnector } from './OrgChartLevel'; // Menggunakan OrgChartLevel dan Connector
 
-// 2. Perbarui struktur data untuk menyertakan link media sosial
-const ketuaUmum = { 
-  name: 'Ahmad Budi', 
-  position: 'Ketua Umum', 
-  imageUrl: '/images/pengurus/placeholder.png',
-  socials: {
-    instagram: 'http://googleusercontent.com/instagram.com/ahmadbudi',
-    whatsapp: 'https://wa.me/6281234567890', // Gunakan format https://wa.me/
-    facebook: 'http://googleusercontent.com/facebook.com/ahmad.budi'
-  }
+// --- DATA DUMMY UNTUK SEMUA POSISI SESUAI DIAGRAM ---
+const dataPengurus = {
+  ketuaUmum: {
+    name: 'Ahmad Budi',
+    position: 'Ketua Umum',
+    imageUrl: '/images/pengurus/ketua_umum.png', // Ganti dengan path foto asli
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  sekretaris: {
+    name: 'Dewi Sartika',
+    position: 'Sekretaris',
+    imageUrl: '/images/pengurus/sekretaris.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  bendahara: {
+    name: 'Citra Lestari',
+    position: 'Bendahara',
+    imageUrl: '/images/pengurus/bendahara.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kabidLitbang: {
+    name: 'Rizky Pratama',
+    position: 'Kabid Litbang',
+    imageUrl: '/images/pengurus/kabid_litbang.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kabidMedkom: {
+    name: 'Sarah Amelia',
+    position: 'Kabid Medkom',
+    imageUrl: '/images/pengurus/kabid_medkom.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kabidSDM: {
+    name: 'Faisal Rahman',
+    position: 'Kabid SDM',
+    imageUrl: '/images/pengurus/kabid_sdm.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kabidLogistik: {
+    name: 'Putri Indah',
+    position: 'Kabid Logistik',
+    imageUrl: '/images/pengurus/kabid_logistik.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kabidKerohanian: {
+    name: 'Yoga Saputra',
+    position: 'Kabid Kerohanian',
+    imageUrl: '/images/pengurus/kabid_kerohanian.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kadivCaving: {
+    name: 'Toni Wijaya',
+    position: 'Kadiv Caving',
+    imageUrl: '/images/pengurus/kadiv_caving.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kadivKonservasi: {
+    name: 'Wulan Sari',
+    position: 'Kadiv Konservasi',
+    imageUrl: '/images/pengurus/kadiv_konservasi.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kadivRimbaGunung: {
+    name: 'Bayu Samudra',
+    position: 'Kadiv Rimba Gunung',
+    imageUrl: '/images/pengurus/kadiv_rimba_gunung.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kadivRockClimbing: { // Panjat Tebing
+    name: 'Diana Putri',
+    position: 'Kadiv Panjat Tebing',
+    imageUrl: '/images/pengurus/kadiv_panjat_tebing.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
+  kadivArungJeram: {
+    name: 'Eko Handoko',
+    position: 'Kadiv Arung Jeram',
+    imageUrl: '/images/pengurus/kadiv_arung_jeram.png',
+    socials: { instagram: '#', whatsapp: '#', facebook: '#' }
+  },
 };
 
-const dataPengurusLainnya = [
-  { 
-    name: 'Citra Lestari', 
-    position: 'Wakil Ketua', 
-    imageUrl: '/images/pengurus/placeholder.png',
-    socials: {
-      instagram: 'http://googleusercontent.com/instagram.com/citra',
-      whatsapp: 'https://wa.me/6281234567891',
-      facebook: 'http://googleusercontent.com/facebook.com/citra.lestari'
-    }
-  },
-  { 
-    name: 'Dewi Sartika', 
-    position: 'Sekretaris', 
-    imageUrl: '/images/pengurus/placeholder.png',
-    socials: {
-      instagram: 'http://googleusercontent.com/instagram.com/dewi',
-      whatsapp: 'https://wa.me/6281234567892',
-      facebook: 'http://googleusercontent.com/facebook.com/dewi.sartika'
-    }
-  },
-  // Tambahkan data pengurus lainnya dengan format yang sama
-];
-
-// 3. Modifikasi PengurusCard untuk menampilkan ikon
-const PengurusCard = ({ person }) => (
-  <div className="text-center flex flex-col items-center">
-    <div className="relative h-56 w-56 mx-auto rounded-full overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300">
-      <Image
-        className="object-cover"
-        src={person.imageUrl}
-        alt={`Foto ${person.name}`}
-        fill
-      />
-    </div>
-    <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-gray-900">{person.name}</h3>
-    <p className="text-sm leading-6 text-gray-600">{person.position}</p>
-    
-    {/* --- BLOK BARU UNTUK IKON MEDIA SOSIAL --- */}
-    <div className="mt-4 flex justify-center gap-4">
-      {person.socials.instagram && (
-        <a href={person.socials.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600">
-          <FaInstagram size={24} />
-        </a>
-      )}
-      {person.socials.whatsapp && (
-        <a href={person.socials.whatsapp} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600">
-          <FaWhatsapp size={24} />
-        </a>
-      )}
-      {person.socials.facebook && (
-        <a href={person.socials.facebook} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-600">
-          <FaFacebook size={24} />
-        </a>
-      )}
-    </div>
-    {/* --- AKHIR BLOK IKON --- */}
-  </div>
-);
-
-
 export default function PengurusSection() {
-  // Sisa kode di bawah ini tidak perlu diubah, karena semua logika ada di dalam PengurusCard
+  const {
+    ketuaUmum, sekretaris, bendahara,
+    kabidLitbang, kabidMedkom, kabidSDM, kabidLogistik, kabidKerohanian,
+    kadivCaving, kadivKonservasi, kadivRimbaGunung, kadivRockClimbing, kadivArungJeram
+  } = dataPengurus;
+
   return (
     <section className="bg-gray-50 py-24 sm:py-32">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Profil Pengurus</h2>
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Struktur Organisasi</h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Mengenal lebih dekat tim yang berada di balik layar kegiatan UKM Mapala periode 2025/2026.
+            Berikut adalah bagan struktur organisasi UKM Mapala Mentari periode 2025/2026.
           </p>
         </div>
 
-        <div className="mt-16 flex justify-center">
-          <PengurusCard person={ketuaUmum} />
-        </div>
+        {/* --- BAGIAN BAGAN ORGANISASI --- */}
+        <div className="mt-16 overflow-x-auto pb-8"> {/* Tambah overflow-x-auto untuk responsif */}
+          <div className="min-w-max flex flex-col items-center p-4">
 
-        <hr className="my-16 border-gray-200" />
-        
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-x-8 gap-y-20 sm:grid-cols-2 lg:grid-cols-3">
-          {dataPengurusLainnya.map((person) => (
-            <PengurusCard key={person.name} person={person} />
-          ))}
-        </div>
-        
-        <div className="mt-20 text-center">
-            <Link href="/" className="rounded-md bg-emerald-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
-                ← Kembali ke Halaman Utama
-            </Link>
+            {/* Level 1: Ketua Umum */}
+            <div className="relative">
+              <OrgChartNode {...ketuaUmum} />
+              <OrgChartConnector type="bottom-top" /> {/* Garis vertikal ke bawah */}
+            </div>
+
+            {/* Level 2: Sekretaris & Bendahara (Laporan ke Ketua Umum) */}
+            <div className="relative w-full text-center flex justify-center mt-8">
+                {/* Garis horizontal di bawah Ketua Umum */}
+                <div className="h-px bg-gray-400 w-full absolute top-0 left-0 right-0 z-0"></div>
+                {/* Garis vertikal dari Ketua Umum ke garis horizontal */}
+                <div className="w-px h-8 bg-gray-400 absolute top-0 -translate-y-full left-1/2 -translate-x-1/2"></div>
+                
+                <div className="flex justify-center gap-16 relative mt-8"> {/* Jarak antara Sekretaris-Bendahara */}
+                    <div className="relative">
+                        <OrgChartNode {...sekretaris} />
+                        <OrgChartConnector type="top-bottom" /> {/* Garis vertikal dari atas */}
+                    </div>
+                    <div className="relative">
+                        <OrgChartNode {...bendahara} />
+                        <OrgChartConnector type="top-bottom" /> {/* Garis vertikal dari atas */}
+                    </div>
+                </div>
+            </div>
+
+            {/* Garis vertikal dari Ketua Umum ke bawah (menghubungkan ke Kabid-Kabid) */}
+            <div className="relative w-full flex justify-center">
+              <OrgChartConnector type="vertical-middle" /> 
+            </div>
+
+            {/* Level 3: Kabid-Kabid (Laporan ke Ketua Umum) */}
+            <div className="relative w-full text-center flex justify-center mt-8">
+              {/* Garis horizontal di bawah Ketua Umum (menghubungkan Kabid-Kabid) */}
+              <div className="h-px bg-gray-400 w-full absolute top-0 left-0 right-0 z-0"></div>
+              {/* Garis vertikal dari Ketua Umum ke garis horizontal Kabid */}
+              <div className="w-px h-8 bg-gray-400 absolute top-0 -translate-y-full left-1/2 -translate-x-1/2"></div>
+                
+              <OrgChartLevel>
+                <div className="relative">
+                  <OrgChartNode {...kabidLitbang} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+                <div className="relative">
+                  <OrgChartNode {...kabidMedkom} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+                <div className="relative">
+                  <OrgChartNode {...kabidSDM} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+                <div className="relative">
+                  <OrgChartNode {...kabidLogistik} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+                <div className="relative">
+                  <OrgChartNode {...kabidKerohanian} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+              </OrgChartLevel>
+            </div>
+
+            {/* Garis vertikal dari Kabid SDM ke bawah (menghubungkan ke Kadiv-Kadiv) */}
+            <div className="relative w-full flex justify-center">
+              <div className="w-px h-16 bg-gray-400"></div> {/* Garis vertikal dari Kabid SDM */}
+            </div>
+
+            {/* Level 4: Kadiv-Kadiv (Laporan ke Kabid SDM) */}
+            <div className="relative w-full text-center flex justify-center mt-8">
+              {/* Garis horizontal di bawah Kabid SDM */}
+              <div className="h-px bg-gray-400 w-full absolute top-0 left-0 right-0 z-0"></div>
+              {/* Garis vertikal dari Kabid SDM ke garis horizontal Kadiv */}
+              <div className="w-px h-8 bg-gray-400 absolute top-0 -translate-y-full left-1/2 -translate-x-1/2"></div>
+              
+              <OrgChartLevel>
+                <div className="relative">
+                  <OrgChartNode {...kadivCaving} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+                <div className="relative">
+                  <OrgChartNode {...kadivKonservasi} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+                <div className="relative">
+                  <OrgChartNode {...kadivRimbaGunung} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+                <div className="relative">
+                  <OrgChartNode {...kadivRockClimbing} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+                <div className="relative">
+                  <OrgChartNode {...kadivArungJeram} />
+                  <OrgChartConnector type="top-bottom" />
+                </div>
+              </OrgChartLevel>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
