@@ -20,10 +20,10 @@ export default function Home() {
       
       {}
       <Arungjeram />
-      <Caving />
       <Konservasi />
       <Panjat />
       <Rimbagunung />
+      <Caving />
 
       {}
       <Footer />

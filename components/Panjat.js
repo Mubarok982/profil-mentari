@@ -1,4 +1,5 @@
 import ImageSlider from './ImageSlider';
+import RevealOnScroll from './RevealOnScroll';
 
 const panjatTebingImages = [
   '/images/panjat/panjat.png',
@@ -14,15 +15,20 @@ export default function Panjat() {
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
           
           <div className="w-full md:w-3/5">
+          <RevealOnScroll direction="left">
             <ImageSlider images={panjatTebingImages} />
+          </RevealOnScroll>
           </div>
 
+
+          <RevealOnScroll direction="right" delay={0.2}>
           <div className="w-full md:w-2/5 text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Divisi Panjat Tebing</h2>
             <p className="text-base text-gray-600 leading-relaxed">
               Menaklukkan tebing vertikal dengan kekuatan, teknik, dan fokus. Divisi ini membangun kepercayaan diri, kekuatan fisik, serta mental yang kuat untuk mencapai puncak.
             </p>
           </div>
+          </RevealOnScroll>
 
         </div>
       </div>

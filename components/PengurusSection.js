@@ -1,11 +1,15 @@
+"use client";
+
+import { motion } from 'framer-motion';
 import OrgChartNode from './OrgChartNode';
-import { OrgChartLevel, OrgChartConnector } from './OrgChartLevel'; 
+// PERBAIKAN: Import OrgChartLevel dihapus karena file sudah tidak ada/tidak dipakai
+import StrukturBagan from './StrukturBagan'; 
 
 const dataPengurus = {
   ketuaUmum: {
     name: 'Ahmad Budi',
     position: 'Ketua Umum',
-    imageUrl: '/images/pengurus/ketua_umum.png', 
+    imageUrl: '/images/pengurus/ketua_umum.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   sekretaris: {
@@ -23,63 +27,79 @@ const dataPengurus = {
   kabidLitbang: {
     name: 'Rizky Pratama',
     position: 'Kabid Litbang',
-    imageUrl: '/images/pengurus/kabid_litbang.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   kabidMedkom: {
     name: 'Sarah Amelia',
     position: 'Kabid Medkom',
-    imageUrl: '/images/pengurus/kabid_medkom.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   kabidSDM: {
     name: 'Faisal Rahman',
     position: 'Kabid SDM',
-    imageUrl: '/images/pengurus/kabid_sdm.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   kabidLogistik: {
     name: 'Putri Indah',
     position: 'Kabid Logistik',
-    imageUrl: '/images/pengurus/kabid_logistik.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   kabidKerohanian: {
     name: 'Yoga Saputra',
     position: 'Kabid Kerohanian',
-    imageUrl: '/images/pengurus/kabid_kerohanian.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   kadivCaving: {
     name: 'Toni Wijaya',
     position: 'Kadiv Caving',
-    imageUrl: '/images/pengurus/kadiv_caving.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   kadivKonservasi: {
     name: 'Wulan Sari',
     position: 'Kadiv Konservasi',
-    imageUrl: '/images/pengurus/kadiv_konservasi.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   kadivRimbaGunung: {
     name: 'Bayu Samudra',
     position: 'Kadiv Rimba Gunung',
-    imageUrl: '/images/pengurus/kadiv_rimba_gunung.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
-  kadivRockClimbing: { 
+  kadivRockClimbing: {
     name: 'Diana Putri',
     position: 'Kadiv Panjat Tebing',
-    imageUrl: '/images/pengurus/kadiv_panjat_tebing.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
   kadivArungJeram: {
     name: 'Eko Handoko',
     position: 'Kadiv Arung Jeram',
-    imageUrl: '/images/pengurus/kadiv_arung_jeram.png',
+    imageUrl: '/images/pengurus/placeholder.png',
     socials: { instagram: '#', whatsapp: '#', facebook: '#' }
   },
+};
+
+// Variabel Animasi
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
 };
 
 export default function PengurusSection() {
@@ -89,119 +109,105 @@ export default function PengurusSection() {
     kadivCaving, kadivKonservasi, kadivRimbaGunung, kadivRockClimbing, kadivArungJeram
   } = dataPengurus;
 
+  // Grup untuk tampilan Mobile (Grid)
+  const kabidList = [kabidLitbang, kabidMedkom, kabidSDM, kabidLogistik, kabidKerohanian];
+  const kadivList = [kadivCaving, kadivKonservasi, kadivRimbaGunung, kadivRockClimbing, kadivArungJeram];
+
   return (
-    <section className="bg-gray-50 py-24 sm:py-32">
+    <section className="bg-gray-50 py-24 sm:py-32 overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="mx-auto max-w-3xl text-center">
+        
+        {/* Header Section */}
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="mx-auto max-w-3xl text-center mb-16"
+        >
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Struktur Organisasi</h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Berikut adalah bagan struktur organisasi UKM Mapala Mentari periode 2025/2026.
           </p>
-        </div>
+        </motion.div>
 
-        {}
-        <div className="mt-16 overflow-x-auto pb-8"> {}
-          <div className="min-w-max flex flex-col items-center p-4">
-
-            {}
-            <div className="relative">
+        {/* ==============================================
+            TAMPILAN MOBILE (Vertical Layout - Grid)
+            Muncul hanya di layar kecil (< 1024px)
+           ============================================== */}
+        <div className="lg:hidden flex flex-col items-center gap-10">
+          
+          {/* Level 1: Ketua Umum */}
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <div className="relative z-10">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">PIMPINAN</span>
               <OrgChartNode {...ketuaUmum} />
-              <OrgChartConnector type="bottom-top" /> {}
             </div>
+          </motion.div>
 
-            {}
-            <div className="relative w-full text-center flex justify-center mt-8">
-                {}
-                <div className="h-px bg-gray-400 w-full absolute top-0 left-0 right-0 z-0"></div>
-                {}
-                <div className="w-px h-8 bg-gray-400 absolute top-0 -translate-y-full left-1/2 -translate-x-1/2"></div>
-                
-                <div className="flex justify-center gap-16 relative mt-8"> {}
-                    <div className="relative">
-                        <OrgChartNode {...sekretaris} />
-                        <OrgChartConnector type="top-bottom" /> {/* Garis vertikal dari atas */}
-                    </div>
-                    <div className="relative">
-                        <OrgChartNode {...bendahara} />
-                        <OrgChartConnector type="top-bottom" /> {/* Garis vertikal dari atas */}
-                    </div>
-                </div>
-            </div>
+          <div className="w-px h-8 bg-gray-300"></div>
 
-            {/* Garis vertikal dari Ketua Umum ke bawah (menghubungkan ke Kabid-Kabid) */}
-            <div className="relative w-full flex justify-center">
-              <OrgChartConnector type="vertical-middle" /> 
-            </div>
+          {/* Level 2: Sekretaris & Bendahara */}
+          <motion.div 
+            className="flex flex-wrap justify-center gap-6"
+            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
+          >
+            <motion.div variants={fadeInUp}><OrgChartNode {...sekretaris} /></motion.div>
+            <motion.div variants={fadeInUp}><OrgChartNode {...bendahara} /></motion.div>
+          </motion.div>
 
-            {/* Level 3: Kabid-Kabid (Laporan ke Ketua Umum) */}
-            <div className="relative w-full text-center flex justify-center mt-8">
-              {/* Garis horizontal di bawah Ketua Umum (menghubungkan Kabid-Kabid) */}
-              <div className="h-px bg-gray-400 w-full absolute top-0 left-0 right-0 z-0"></div>
-              {/* Garis vertikal dari Ketua Umum ke garis horizontal Kabid */}
-              <div className="w-px h-8 bg-gray-400 absolute top-0 -translate-y-full left-1/2 -translate-x-1/2"></div>
-                
-              <OrgChartLevel>
-                <div className="relative">
-                  <OrgChartNode {...kabidLitbang} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-                <div className="relative">
-                  <OrgChartNode {...kabidMedkom} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-                <div className="relative">
-                  <OrgChartNode {...kabidSDM} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-                <div className="relative">
-                  <OrgChartNode {...kabidLogistik} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-                <div className="relative">
-                  <OrgChartNode {...kabidKerohanian} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-              </OrgChartLevel>
-            </div>
+          <div className="w-px h-8 bg-gray-300"></div>
 
-            {/* Garis vertikal dari Kabid SDM ke bawah (menghubungkan ke Kadiv-Kadiv) */}
-            <div className="relative w-full flex justify-center">
-              <div className="w-px h-16 bg-gray-400"></div> {/* Garis vertikal dari Kabid SDM */}
-            </div>
+          {/* Level 3: Kepala Bidang */}
+          <div className="w-full">
+            <h3 className="text-center text-sm font-semibold text-gray-500 uppercase tracking-widest mb-6 border-b border-gray-200 pb-2">Kepala Bidang</h3>
+            <motion.div 
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center"
+              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
+            >
+              {kabidList.map((kabid, index) => (
+                <motion.div key={index} variants={fadeInUp}>
+                  <OrgChartNode {...kabid} />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
 
-            {/* Level 4: Kadiv-Kadiv (Laporan ke Kabid SDM) */}
-            <div className="relative w-full text-center flex justify-center mt-8">
-              {/* Garis horizontal di bawah Kabid SDM */}
-              <div className="h-px bg-gray-400 w-full absolute top-0 left-0 right-0 z-0"></div>
-              {/* Garis vertikal dari Kabid SDM ke garis horizontal Kadiv */}
-              <div className="w-px h-8 bg-gray-400 absolute top-0 -translate-y-full left-1/2 -translate-x-1/2"></div>
-              
-              <OrgChartLevel>
-                <div className="relative">
-                  <OrgChartNode {...kadivCaving} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-                <div className="relative">
-                  <OrgChartNode {...kadivKonservasi} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-                <div className="relative">
-                  <OrgChartNode {...kadivRimbaGunung} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-                <div className="relative">
-                  <OrgChartNode {...kadivRockClimbing} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-                <div className="relative">
-                  <OrgChartNode {...kadivArungJeram} />
-                  <OrgChartConnector type="top-bottom" />
-                </div>
-              </OrgChartLevel>
-            </div>
+          <div className="w-px h-8 bg-gray-300"></div>
 
+          {/* Level 4: Kepala Divisi */}
+          <div className="w-full">
+            <h3 className="text-center text-sm font-semibold text-gray-500 uppercase tracking-widest mb-6 border-b border-gray-200 pb-2">Kepala Divisi</h3>
+            <motion.div 
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center"
+              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
+            >
+              {kadivList.map((kadiv, index) => (
+                <motion.div key={index} variants={fadeInUp}>
+                  <OrgChartNode {...kadiv} />
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </div>
+
+
+        {/* ==============================================
+            TAMPILAN DESKTOP (Tree Diagram - Panggil StrukturBagan.js)
+            Muncul hanya di layar besar (>= 1024px)
+           ============================================== */}
+        <div className="hidden lg:block mt-8">
+          <motion.div 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true }} 
+            variants={fadeInUp}
+          >
+            {/* PANGGIL KOMPONEN DISINI */}
+            <StrukturBagan /> 
+          </motion.div>
+        </div>
+
       </div>
     </section>
   );

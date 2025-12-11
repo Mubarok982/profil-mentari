@@ -1,4 +1,5 @@
 import ImageSlider from './ImageSlider'; 
+import RevealOnScroll from './RevealOnScroll';
 
 const konservasiImages = [
   '/images/konservasi/konservasi.webp', 
@@ -15,16 +16,20 @@ export default function Konservasi() {
           
           {}
           <div className="w-full md:w-3/5">
+          <RevealOnScroll direction="right">
             <ImageSlider images={konservasiImages} />
+          </RevealOnScroll>
           </div>
 
           {}
+          <RevealOnScroll direction="left" delay={0.2}>
           <div className="w-full md:w-2/5 text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Divisi Konservasi</h2>
             <p className="text-base text-gray-600 leading-relaxed">
               Menjadi garda terdepan dalam menjaga kelestarian alam. Divisi ini fokus pada kegiatan penanaman pohon, pembersihan lingkungan, edukasi, dan penelitian untuk keberlanjutan bumi.
             </p>
           </div>
+          </RevealOnScroll>
 
         </div>
       </div>
