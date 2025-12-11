@@ -43,13 +43,14 @@ export default function HeroSection() {
           Mahasiswa Pecinta Alam Universitas Muhammadiyah Magelang
         </motion.h2>
         
+        {/* PERBAIKAN DI SINI: Gunakan &quot; menggantikan " */}
         <motion.p 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.8 }}
           className="text-base md:text-lg italic text-gray-300 max-w-2xl mx-auto border-t border-gray-500/50 pt-6 mt-6"
         >
-          "Di mana Bumi kupijak, di situ aku kena pajak."
+          &quot;Di mana Bumi kupijak, di situ aku kena pajak.&quot;
         </motion.p>
 
         {/* Scroll Down Indicator */}

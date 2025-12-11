@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const NavLink = ({ href, children, onClick, className }) => {
@@ -25,28 +25,55 @@ const NavLink = ({ href, children, onClick, className }) => {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const pathname = usePathname();
 
   const isHomePage = pathname === '/';
 
+  // --- LOGIKA TEMA ---
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
+
+    // Cek LocalStorage
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    // Set tema awal
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDark(false);
+      document.documentElement.classList.remove('dark');
+    }
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const toggleTheme = () => {
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      setIsDark(true);
+    }
+  };
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  // --- LOGIKA STYLE DINAMIS ---
+  // --- STYLE NAVBAR ---
   let navbarClasses = "fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 ";
   
   if (scrolled) {
     if (isHomePage) {
         navbarClasses += "bg-black/30 backdrop-blur-md shadow-sm"; 
     } else {
-        navbarClasses += "bg-white/70 backdrop-blur-md shadow-sm border-b border-gray-200/50";
+        // Style saat scroll di halaman biasa (mendukung dark mode)
+        navbarClasses += "bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm border-b border-gray-200/50 dark:border-gray-700/50";
     }
   } else {
     navbarClasses += "bg-transparent";
@@ -56,11 +83,12 @@ export default function Navbar() {
   if (isHomePage) {
     textColorClass = "text-gray-100 hover:text-white";
   } else {
-    textColorClass = "text-gray-600 hover:text-emerald-600";
+    textColorClass = "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400";
   }
 
-  const logoTextClass = isHomePage ? "text-white" : "text-emerald-600";
-  const hamburgerColor = isHomePage ? "text-white" : "text-gray-800";
+  const logoTextClass = isHomePage ? "text-white" : "text-emerald-600 dark:text-emerald-400";
+  // Warna hamburger menyesuaikan mode
+  const hamburgerColor = isHomePage ? "text-white" : "text-gray-800 dark:text-white";
 
   const divisions = [
     { name: "Arung Jeram", href: "/#arung-jeram" },
@@ -83,6 +111,7 @@ export default function Navbar() {
                   src="/images/navbar/logomentari.png"
                   alt="Logo Mapala Mentari"
                   fill
+                  sizes="(max-width: 768px) 48px, 64px"
                   className="rounded-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
@@ -100,9 +129,18 @@ export default function Navbar() {
                   {div.name}
                 </NavLink>
               ))}
+
+              {/* Toggle Dark Mode Desktop (Samping Kanan Rimba Gunung) */}
+              <button
+                onClick={toggleTheme}
+                className={`ml-4 p-2 rounded-full transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/10 ${textColorClass}`}
+                aria-label="Toggle Dark Mode"
+              >
+                {isDark ? <FaSun size={20} /> : <FaMoon size={20} />}
+              </button>
             </nav>
 
-            {/* Mobile Hamburger Button */}
+            {/* Mobile Hamburger Button (Hanya Ikon Menu) */}
             {!isOpen && (
               <button 
                 onClick={toggleMenu} 
@@ -116,7 +154,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay (Floating Card Style) */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -135,22 +173,16 @@ export default function Navbar() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               transition={{ duration: 0.2 }}
-              // PERUBAHAN DI SINI:
-              // 1. top-4 right-4: Memberi jarak dari tepi (floating)
-              // 2. h-auto: Tinggi menyesuaikan isi
-              // 3. max-h-[...]: Mencegah kartu terlalu panjang jika di HP kecil
-              // 4. rounded-2xl: Sudut melengkung semua sisi
               className="fixed top-4 right-4 w-[75%] max-w-xs h-auto max-h-[90vh] overflow-y-auto bg-slate-900/95 backdrop-blur-xl shadow-2xl z-[70] md:hidden rounded-2xl border border-white/10"
             >
               <div className="flex flex-col p-5">
                 
-                {/* Header Menu (Tombol Close) */}
+                {/* Header Menu */}
                 <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
                   <span className="text-white font-bold tracking-wider">MENU</span>
                   <button 
                     onClick={toggleMenu}
                     className="text-white hover:text-emerald-400 transition-colors focus:outline-none bg-white/10 p-2 rounded-full hover:bg-white/20"
-                    aria-label="Close Menu"
                   >
                     <FaTimes size={20} />
                   </button>
@@ -171,9 +203,26 @@ export default function Navbar() {
                       ))}
                     </div>
                   </div>
+
+                  {/* --- TOMBOL DARK MODE (DALAM MENU MOBILE) --- */}
+                  <div className="mt-4 pt-4 border-t border-gray-700">
+                    <button 
+                      onClick={toggleTheme}
+                      className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-white group"
+                    >
+                      <span className="text-sm font-medium">
+                        {isDark ? "Ganti ke Mode Terang" : "Ganti ke Mode Gelap"}
+                      </span>
+                      {isDark ? (
+                        <FaSun size={18} className="text-yellow-400 group-hover:rotate-45 transition-transform" /> 
+                      ) : (
+                        <FaMoon size={18} className="text-blue-200 group-hover:-rotate-12 transition-transform" />
+                      )}
+                    </button>
+                  </div>
+
                 </nav>
 
-                {/* Footer Kecil */}
                 <div className="mt-6 text-center pt-4 border-t border-gray-700">
                   <p className="text-[10px] text-gray-500">UKM MENTARI © {new Date().getFullYear()}</p>
                 </div>
