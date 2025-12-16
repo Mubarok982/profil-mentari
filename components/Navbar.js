@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const NavLink = ({ href, children, onClick, className }) => {
@@ -25,55 +25,28 @@ const NavLink = ({ href, children, onClick, className }) => {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isDark, setIsDark] = useState(false);
   const pathname = usePathname();
 
   const isHomePage = pathname === '/';
 
-  // --- LOGIKA TEMA ---
+  // --- LOGIKA SCROLL ---
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
-
-    // Cek LocalStorage
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    // Set tema awal
-    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove('dark');
-    }
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-      setIsDark(true);
-    }
-  };
-
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  // --- STYLE NAVBAR ---
+  // --- STYLE NAVBAR (DESKTOP) ---
   let navbarClasses = "fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 ";
   
   if (scrolled) {
     if (isHomePage) {
         navbarClasses += "bg-black/30 backdrop-blur-md shadow-sm"; 
     } else {
-        // Style saat scroll di halaman biasa (mendukung dark mode)
-        navbarClasses += "bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm border-b border-gray-200/50 dark:border-gray-700/50";
+        // Ini referensi warna yang akan kita pakai di mobile juga (Putih 80%)
+        navbarClasses += "bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200/50";
     }
   } else {
     navbarClasses += "bg-transparent";
@@ -83,19 +56,19 @@ export default function Navbar() {
   if (isHomePage) {
     textColorClass = "text-gray-100 hover:text-white";
   } else {
-    textColorClass = "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400";
+    textColorClass = "text-gray-600 hover:text-emerald-600";
   }
 
-  const logoTextClass = isHomePage ? "text-white" : "text-emerald-600 dark:text-emerald-400";
-  // Warna hamburger menyesuaikan mode
-  const hamburgerColor = isHomePage ? "text-white" : "text-gray-800 dark:text-white";
+  const logoTextClass = isHomePage ? "text-white" : "text-emerald-600";
+  const hamburgerColor = isHomePage ? "text-white" : "text-gray-800";
 
+  // Urutan Divisi
   const divisions = [
     { name: "Arung Jeram", href: "/#arung-jeram" },
-    { name: "Caving", href: "/#caving" },
     { name: "Konservasi", href: "/#konservasi" },
     { name: "Panjat Tebing", href: "/#panjat-tebing" },
     { name: "Rimba Gunung", href: "/#rimba-gunung" },
+    { name: "Caving", href: "/#caving" },
   ];
 
   return (
@@ -129,18 +102,9 @@ export default function Navbar() {
                   {div.name}
                 </NavLink>
               ))}
-
-              {/* Toggle Dark Mode Desktop (Samping Kanan Rimba Gunung) */}
-              <button
-                onClick={toggleTheme}
-                className={`ml-4 p-2 rounded-full transition-all duration-300 hover:bg-black/5 dark:hover:bg-white/10 ${textColorClass}`}
-                aria-label="Toggle Dark Mode"
-              >
-                {isDark ? <FaSun size={20} /> : <FaMoon size={20} />}
-              </button>
             </nav>
 
-            {/* Mobile Hamburger Button (Hanya Ikon Menu) */}
+            {/* Mobile Hamburger Button */}
             {!isOpen && (
               <button 
                 onClick={toggleMenu} 
@@ -158,73 +122,62 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop (Gelap Transparan di belakang kartu) */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={toggleMenu}
-              className="fixed inset-0 bg-black/60 z-[60] backdrop-blur-sm md:hidden"
+              className="fixed inset-0 bg-black/30 z-[60] backdrop-blur-[2px] md:hidden"
             />
 
-            {/* Side Menu Card */}
+            {/* SIDE MENU CARD 
+              Perubahan: 
+              - bg-white/80 (Sama persis dengan navbar desktop saat scroll)
+              - border-gray-200/50 (Border tipis transparan)
+              - backdrop-blur-md (Efek blur standar desktop)
+            */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               transition={{ duration: 0.2 }}
-              className="fixed top-4 right-4 w-[75%] max-w-xs h-auto max-h-[90vh] overflow-y-auto bg-slate-900/95 backdrop-blur-xl shadow-2xl z-[70] md:hidden rounded-2xl border border-white/10"
+              className="fixed top-4 right-4 w-[75%] max-w-xs h-auto max-h-[85vh] overflow-y-auto bg-white/80 backdrop-blur-md shadow-2xl z-[70] md:hidden rounded-2xl border border-gray-200/50"
             >
               <div className="flex flex-col p-5">
                 
                 {/* Header Menu */}
-                <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
-                  <span className="text-white font-bold tracking-wider">MENU</span>
+                <div className="flex justify-between items-center mb-4 border-b border-gray-300/50 pb-3">
+                  <span className="text-slate-800 font-bold tracking-wider">MENU</span>
                   <button 
                     onClick={toggleMenu}
-                    className="text-white hover:text-emerald-400 transition-colors focus:outline-none bg-white/10 p-2 rounded-full hover:bg-white/20"
+                    className="text-slate-800 hover:text-red-500 transition-colors focus:outline-none bg-black/5 p-2 rounded-full hover:bg-black/10"
                   >
-                    <FaTimes size={20} />
+                    <FaTimes size={18} />
                   </button>
                 </div>
 
                 {/* List Menu */}
-                <nav className="flex flex-col space-y-3">
-                  <NavLink href="/" onClick={toggleMenu} className="text-lg font-medium text-white hover:text-emerald-400 bg-white/5 rounded-lg">Home</NavLink>
-                  <NavLink href="/pengurus" onClick={toggleMenu} className="text-lg font-medium text-white hover:text-emerald-400 bg-white/5 rounded-lg">Profil Pengurus</NavLink>
+                <nav className="flex flex-col space-y-2">
+                  <NavLink href="/" onClick={toggleMenu} className="text-base font-medium text-slate-800 hover:text-emerald-600 bg-white/40 rounded-lg py-2">Home</NavLink>
+                  <NavLink href="/pengurus" onClick={toggleMenu} className="text-base font-medium text-slate-800 hover:text-emerald-600 bg-white/40 rounded-lg py-2">Profil Pengurus</NavLink>
                   
-                  <div className="mt-2 pt-2 border-t border-gray-700">
-                    <p className="px-3 text-xs text-emerald-500 uppercase tracking-widest mb-3 font-bold mt-2">Divisi</p>
-                    <div className="space-y-2 pl-1">
+                  {/* Divisi */}
+                  <div className="mt-2 pt-2 border-t border-gray-300/50">
+                    <p className="px-3 text-[10px] text-emerald-700 uppercase tracking-widest mb-2 font-bold opacity-90">Divisi</p>
+                    <div className="space-y-1 pl-1">
                       {divisions.map((div) => (
-                        <NavLink key={div.name} href={div.href} onClick={toggleMenu} className="text-gray-300 hover:text-white text-base py-1">
+                        <NavLink key={div.name} href={div.href} onClick={toggleMenu} className="text-slate-700 hover:text-emerald-600 text-sm py-1.5 font-medium">
                           {div.name}
                         </NavLink>
                       ))}
                     </div>
                   </div>
 
-                  {/* --- TOMBOL DARK MODE (DALAM MENU MOBILE) --- */}
-                  <div className="mt-4 pt-4 border-t border-gray-700">
-                    <button 
-                      onClick={toggleTheme}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-colors text-white group"
-                    >
-                      <span className="text-sm font-medium">
-                        {isDark ? "Ganti ke Mode Terang" : "Ganti ke Mode Gelap"}
-                      </span>
-                      {isDark ? (
-                        <FaSun size={18} className="text-yellow-400 group-hover:rotate-45 transition-transform" /> 
-                      ) : (
-                        <FaMoon size={18} className="text-blue-200 group-hover:-rotate-12 transition-transform" />
-                      )}
-                    </button>
-                  </div>
-
                 </nav>
 
-                <div className="mt-6 text-center pt-4 border-t border-gray-700">
-                  <p className="text-[10px] text-gray-500">UKM MENTARI © {new Date().getFullYear()}</p>
+                <div className="mt-4 text-center pt-3 border-t border-gray-300/50">
+                  <p className="text-[10px] text-slate-500">UKM MENTARI © {new Date().getFullYear()}</p>
                 </div>
 
               </div>
