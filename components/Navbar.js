@@ -45,13 +45,13 @@ export default function Navbar() {
     if (isHomePage) {
         navbarClasses += "bg-black/30 backdrop-blur-md shadow-sm"; 
     } else {
-        // Ini referensi warna yang akan kita pakai di mobile juga (Putih 80%)
         navbarClasses += "bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200/50";
     }
   } else {
     navbarClasses += "bg-transparent";
   }
 
+  // Warna Teks Desktop
   let textColorClass = "";
   if (isHomePage) {
     textColorClass = "text-gray-100 hover:text-white";
@@ -62,7 +62,6 @@ export default function Navbar() {
   const logoTextClass = isHomePage ? "text-white" : "text-emerald-600";
   const hamburgerColor = isHomePage ? "text-white" : "text-gray-800";
 
-  // Urutan Divisi
   const divisions = [
     { name: "Arung Jeram", href: "/#arung-jeram" },
     { name: "Konservasi", href: "/#konservasi" },
@@ -122,36 +121,36 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop (Gelap Transparan di belakang kartu) */}
+            {/* Backdrop Layar Penuh (Diberi blur sedikit agar fokus ke menu) */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={toggleMenu}
-              className="fixed inset-0 bg-black/30 z-[60] backdrop-blur-[2px] md:hidden"
+              className="fixed inset-0 bg-black/10 z-[60] backdrop-blur-[2px] md:hidden"
             />
 
-            {/* SIDE MENU CARD 
-              Perubahan: 
-              - bg-white/80 (Sama persis dengan navbar desktop saat scroll)
-              - border-gray-200/50 (Border tipis transparan)
-              - backdrop-blur-md (Efek blur standar desktop)
+            {/* SIDE MENU CARD - EFEK KACA (GLASSMORPHISM)
+              - bg-white/70 : Putih transparan 70% (lebih bening dari sebelumnya)
+              - backdrop-blur-xl : Blur tingkat tinggi (seperti kaca es)
+              - border-white/40 : Garis tepi semi-transparan putih
+              - shadow-xl : Bayangan lembut untuk kedalaman
             */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               transition={{ duration: 0.2 }}
-              className="fixed top-4 right-4 w-[75%] max-w-xs h-auto max-h-[85vh] overflow-y-auto bg-white/80 backdrop-blur-md shadow-2xl z-[70] md:hidden rounded-2xl border border-gray-200/50"
+              className="fixed top-4 right-4 w-[75%] max-w-xs h-auto max-h-[85vh] overflow-y-auto bg-white/0 backdrop-blur-md shadow-xl z-[70] md:hidden rounded-2xl border border-white/40"
             >
               <div className="flex flex-col p-5">
                 
                 {/* Header Menu */}
-                <div className="flex justify-between items-center mb-4 border-b border-gray-300/50 pb-3">
-                  <span className="text-slate-800 font-bold tracking-wider">MENU</span>
+                <div className="flex justify-between items-center mb-4 border-b border-gray-400/30 pb-3">
+                  <span className="text-gray-700 font-bold tracking-wider">MENU</span>
                   <button 
                     onClick={toggleMenu}
-                    className="text-slate-800 hover:text-red-500 transition-colors focus:outline-none bg-black/5 p-2 rounded-full hover:bg-black/10"
+                    className="text-gray-700 hover:text-red-500 transition-colors focus:outline-none bg-white/40 p-2 rounded-full hover:bg-white/60 shadow-sm"
                   >
                     <FaTimes size={18} />
                   </button>
@@ -159,15 +158,15 @@ export default function Navbar() {
 
                 {/* List Menu */}
                 <nav className="flex flex-col space-y-2">
-                  <NavLink href="/" onClick={toggleMenu} className="text-base font-medium text-slate-800 hover:text-emerald-600 bg-white/40 rounded-lg py-2">Home</NavLink>
-                  <NavLink href="/pengurus" onClick={toggleMenu} className="text-base font-medium text-slate-800 hover:text-emerald-600 bg-white/40 rounded-lg py-2">Profil Pengurus</NavLink>
+                  <NavLink href="/" onClick={toggleMenu} className="text-base font-bold text-white-900 hover:text-emerald-700 bg-white/30 hover:bg-white/50 rounded-lg py-2 backdrop-blur-sm">Home</NavLink>
+                  <NavLink href="/pengurus" onClick={toggleMenu} className="text-base font-bold text-white-900 hover:text-emerald-700 bg-white/30 hover:bg-white/50 rounded-lg py-2 backdrop-blur-sm">Profil Pengurus</NavLink>
                   
                   {/* Divisi */}
-                  <div className="mt-2 pt-2 border-t border-gray-300/50">
-                    <p className="px-3 text-[10px] text-emerald-700 uppercase tracking-widest mb-2 font-bold opacity-90">Divisi</p>
+                  <div className="mt-2 pt-2 border-t border-gray-400/30">
+                    <p className="px-3 text-[10px] text-emerald-800 uppercase tracking-widest mb-2 font-bold opacity-80">Divisi</p>
                     <div className="space-y-1 pl-1">
                       {divisions.map((div) => (
-                        <NavLink key={div.name} href={div.href} onClick={toggleMenu} className="text-slate-700 hover:text-emerald-600 text-sm py-1.5 font-medium">
+                        <NavLink key={div.name} href={div.href} onClick={toggleMenu} className="text-white-600 hover:text-emerald-700 text-sm scroll-py-2.5 font-medium">
                           {div.name}
                         </NavLink>
                       ))}
@@ -176,8 +175,8 @@ export default function Navbar() {
 
                 </nav>
 
-                <div className="mt-4 text-center pt-3 border-t border-gray-300/50">
-                  <p className="text-[10px] text-slate-500">UKM MENTARI © {new Date().getFullYear()}</p>
+                <div className="mt-4 text-center pt-3 border-t border-gray-400/30">
+                  <p className="text-[10px] text-gray-500">MENTARI © {new Date().getFullYear()}</p>
                 </div>
 
               </div>

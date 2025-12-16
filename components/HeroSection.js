@@ -43,7 +43,6 @@ export default function HeroSection() {
           Mahasiswa Pecinta Alam Universitas Muhammadiyah Magelang
         </motion.h2>
         
-        {/* PERBAIKAN DI SINI: Gunakan &quot; menggantikan " */}
         <motion.p 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -52,18 +51,6 @@ export default function HeroSection() {
         >
           &quot;Di mana Bumi kupijak, di situ aku kena pajak.&quot;
         </motion.p>
-
-        {/* Scroll Down Indicator */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 10, 0] }}
-          transition={{ duration: 2, delay: 1.5, repeat: Infinity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        >
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-2 bg-white rounded-full mt-2 animate-bounce"></div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

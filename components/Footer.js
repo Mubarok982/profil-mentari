@@ -61,7 +61,7 @@ export default function Footer() {
             </a>
           </div>
           <p className="text-sm text-gray-500">
-            Dibuat dengan <span className="text-emerald-600">❤️</span> oleh UKM Mapala © {new Date().getFullYear()}
+            Dibuat dengan <span className="text-emerald-600">❤️</span> oleh UKM MENTARI © {new Date().getFullYear()}
           </p>
         </div>
       </div>
