@@ -29,7 +29,6 @@ export default function Navbar() {
 
   const isHomePage = pathname === '/';
 
-  // --- LOGIKA SCROLL ---
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -129,13 +128,6 @@ export default function Navbar() {
               onClick={toggleMenu}
               className="fixed inset-0 bg-black/10 z-[60] backdrop-blur-[2px] md:hidden"
             />
-
-            {/* SIDE MENU CARD - EFEK KACA (GLASSMORPHISM)
-              - bg-white/70 : Putih transparan 70% (lebih bening dari sebelumnya)
-              - backdrop-blur-xl : Blur tingkat tinggi (seperti kaca es)
-              - border-white/40 : Garis tepi semi-transparan putih
-              - shadow-xl : Bayangan lembut untuk kedalaman
-            */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}

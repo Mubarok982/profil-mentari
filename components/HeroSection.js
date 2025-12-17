@@ -40,7 +40,8 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl font-light mb-8 max-w-3xl mx-auto text-gray-200"
         >
-          Mahasiswa Pecinta Alam Universitas Muhammadiyah Magelang
+          Mahasiswa Pecinta Alam Rimba Raya Indonesia 
+          Universitas Muhammadiyah Magelang
         </motion.h2>
         
         <motion.p 
@@ -49,7 +50,7 @@ export default function HeroSection() {
           transition={{ duration: 1, delay: 0.8 }}
           className="text-base md:text-lg italic text-gray-300 max-w-2xl mx-auto border-t border-gray-500/50 pt-6 mt-6"
         >
-          &quot;Di mana Bumi kupijak, di situ aku kena pajak.&quot;
+          &quot;Di mana Bumi kupijak, di situ Mentari bersinar.&quot;
         </motion.p>
       </div>
     </section>
